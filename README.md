@@ -1,5 +1,5 @@
 # Teckin-TC100
-##Device Security: 1/10
+## Device Security: 1/10
 
 + no default services
 + no known default root PW (only md5 tho)
@@ -21,7 +21,7 @@ DECIMAL                            HEXADECIMAL                        DESCRIPTIO
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 ```
 
-##Tree:
+## Tree:
 ```
 0x23B000 - / Root Filesystem - SquashFS (RO)
 
@@ -531,7 +531,7 @@ DECIMAL                            HEXADECIMAL                        DESCRIPTIO
 ```
 
 
-##Certificates:
+## Certificates:
 ```
 Embedded in binary "anyka_ipc"
 │   ├── [4.0K]  ./bin/anyka_ipc.extracted
@@ -544,14 +544,14 @@ Embedded in binary "anyka_ipc"
 ```
 
 
-##FW: 
+## FW: 
 V1.1.41
 
-##Kernel & cmdline:
+## Kernel & cmdline:
 3.4.35
 console=ttySAK0,115200n8 root=/dev/mtdblock4 rootfstype=squashfs init=/sbin/init mem=64M memsize=64M
 
-##BusyBox v1.24.1 (2018-10-17 20:46:15 CST) multi-call binary
+## BusyBox v1.24.1 (2018-10-17 20:46:15 CST) multi-call binary
 ```
 Busybox Modules:
 [root@anyka ~]$ busybox --list
@@ -817,7 +817,7 @@ xargs
 yes
 ```
 
-##Netstat:
+## Netstat:
 ```
 [root@anyka ~]$ netstat -an
 Active Internet connections (servers and established)
@@ -829,7 +829,7 @@ udp        0      0 192.168.178.97:53305    0.0.0.0:*
 udp        0      0 0.0.0.0:32345           0.0.0.0:*
 ```
 
-##Diskspace:
+## Diskspace:
 ```
 Filesystem                Size      Used Available Use% Mounted on
 /dev/root                 1.3M      1.3M         0 100% /
@@ -838,7 +838,7 @@ Filesystem                Size      Used Available Use% Mounted on
 /dev/loop0               95.0K       512     94.5K   1% /tmp/ramdisk
 ```
 
-##Memory Usage:
+## Memory Usage:
 ```
              total       used       free     shared    buffers     cached
 Mem:         33384      33044        340          0       5664       9268
@@ -846,7 +846,7 @@ Mem:         33384      33044        340          0       5664       9268
 Swap:            0          0          0
 ```
 
-##Partitions:
+## Partitions:
 ```
 major minor  #blocks  name
 
@@ -862,7 +862,7 @@ major minor  #blocks  name
  179        1   15263744 mmcblk0p1
 ```
 
-##Mountpoints:
+## Mountpoints:
 ```
 # <file system> <mount point>   <type>  <options>       <dump>  <pass>
 proc            /proc           proc    defaults            0   0
@@ -873,7 +873,7 @@ tmpfs           /mnt            tmpfs   defaults            0   0
 sysfs           /sys            sysfs   defaults            0   0
 ```
 
-##Blockdevices:
+## Blockdevices:
 ```
 dev:    size   erasesize  name
 mtd0: 00800000 00001000 "spi0.0"
@@ -885,7 +885,7 @@ mtd5: 0007d000 00001000 "B"
 mtd6: 003b6000 00001000 "C"
 ```
 
-##SOC:
+## SOC:
 ```
 Processor       : ARM926EJ-S rev 5 (v5l)
 BogoMIPS        : 199.06
@@ -905,7 +905,7 @@ Sensor:
 isp_f23_mipi2lane.conf v.4.003
 ```
 
-##Boot Process:
+## Boot Process:
 ```
 ::sysinit:/etc/init.d/rcS
     ->
@@ -1023,11 +1023,11 @@ isp_f23_mipi2lane.conf v.4.003
             fi
 ```
 
-##Runtime Exploitation:
+## Runtime Exploitation:
 If the device has been configured before
 Pick you Poison via FACTORY_TEST or WIFI_TEST or "encrypted" enable_telnetd.dat entrypoints on SDCard.
 
-###Example:
+### Example:
 WIFI_TEST:
 01. Format SD-CARD FAT32
 02. create new shadowfile and save in sdcard root.
@@ -1045,13 +1045,13 @@ WIFI_TEST:
     a. Create "debug" folder in SDCard root
     b. create "log.txt" in debug folder
 
-###Shadowfile:
+### Shadowfile:
 
 openssl passwd -1 tc100
 $1$HZ/jeDVN$8r2kBlyqHxyqhjYjS378Q.
 
 
-##Persistant Changes:
+## Persistant Changes:
 
 Option 1 - Repack Image and flash via SPI Programming
 Option 2 - Repack Image and flash via DD
@@ -1061,7 +1061,7 @@ Option 5 - Repack and Upgrade via USB OTA
 Option 6 - Just use an SDCard
 
 
-##Apps:
+## Apps:
 
 Watchdog:
 [monitor_thread:404] interval: 3(sec), fifo[/tmp/daemon_fifo].size=50
@@ -1072,7 +1072,7 @@ ak_cmd_server_register(7000,"anyka_ipc7000");
 cmd_serverd
 
 
-##Exploration Ideas:
+## Exploration Ideas:
 
 - Enable Telnet
 - Change Root Password
