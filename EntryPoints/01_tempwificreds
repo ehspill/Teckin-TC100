@@ -1,0 +1,4 @@
+[wireless]
+ssid = WIFISSID
+password = WIFIPASS
+security = 
