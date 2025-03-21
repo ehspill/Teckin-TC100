@@ -1,7 +1,64 @@
 # cross-compile 
 https://github.com/ricardojlrufino/arm-anykav200-crosstool
+
+Simple Dockerfile for Building
+```
+# Step 1: Use the latest Ubuntu image
+FROM ubuntu:latest
+
+# Step 2: Install SSH server, enable it, and map port 8022 -> 22
+RUN apt-get update && apt-get install -y \
+    openssh-server \
+    && mkdir /var/run/sshd \
+    && echo 'PermitRootLogin yes' >> /etc/ssh/sshd_config \
+    && echo 'PasswordAuthentication yes' >> /etc/ssh/sshd_config \
+    && echo 'root:root' | chpasswd
+
+# Step 3: Enable 32-bit support and install required libraries
+RUN dpkg --add-architecture i386 \
+    && apt-get update \
+    && apt-get install -y \
+        lib32stdc++6 \
+        libmpc-dev:i386 \
+        libz1:i386 \
+        libstdc++6:i386 \
+        libgcc1:i386 \
+        zlib1g:i386 \
+        libc6:i386 \
+        gcc-multilib \
+        g++-multilib \
+        libc6-dev-i386 \
+        unzip \
+        git \
+        wget \
+    && ln -s /lib/i386-linux-gnu/libmpfr.so.6 /lib/i386-linux-gnu/libmpfr.so.4
+
+# Step 4: Clone the repository and unzip the toolchain
+RUN git clone https://github.com/ricardojlrufino/arm-anykav200-crosstool.git /tmp/crosstool \
+    && unzip /tmp/crosstool/arm-anykav200-crosstool.zip -d /opt/ \
+    && rm -rf /tmp/crosstool
+
+# Step 5: Set the environment variable for the toolchain
+ENV PATH=$PATH:/opt/arm-anykav200-crosstool/usr/bin
+
+
+# Step 6: Get the SDK
+RUN mkdir /src \ 
+    && git clone https://github.com/Nemobi/ak3918ev300v18.git /src/ak3918ev300v18
+
+# Step 7: Build
+RUN mkdir /src/custom \
+    && wget -P /src/custom https://github.com/ehspill/Teckin-TC100/blob/main/FW/V1.1.41/CustomApps/rtsp/ak_rtsp_demo.c \
+    && arm-anykav200-linux-uclibcgnueabi-gcc -fno-strict-aliasing -Os -Wall -Werror -D_GNU_SOURCE -std=c99 -fms-extensions -I/src/ak3918ev300v18/platform/libplat/include -I/src/ak3918ev300v18/platform/libapp/../libplat/include_inner -I/src/ak3918ev300v18/platform/libmpi/include -I/src/ak3918ev300v18/platform/libapp/include -c ak_rtsp_demo.c -o ak_rtsp_demo.o \
+    && arm-anykav200-linux-uclibcgnueabi-g++ ak_rtsp_demo.o -L/src/ak3918ev300v18/platform/libplat/lib -L/src/ak3918ev300v18/platform/libmpi/lib -L/src/ak3918ev300v18/platform/libapp/lib -lakuio -lakv_encode -lakispsdk -lplat_common -lplat_thread -lplat_vi -lplat_drv -lplat_vpss -lplat_ipcsrv -lplat_venc_cb -lmpi_venc -lapp_rtsp -lapp_net -lrt -lpthread -ldl -Wl,-rpath=/mnt -rdynamic -Xlinker "-("  -Xlinker "-)" -o ak_rtsp_demo
+
+
+# Start SSH server when container starts
+CMD ["/usr/sbin/sshd", "-D"]
+```
 # sdk 
 https://github.com/Nemobi/ak3918ev300v18
+
 # ak_rtsp_demo.c 
 based on https://github.com/MuhammedKalkan/Anyka-Camera-Firmware
 
