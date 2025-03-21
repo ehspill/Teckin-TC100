@@ -33,7 +33,7 @@ Early in the normal Boot process the service.sh checks for serveral modes, one o
 
             ...
 			
-If an SD-Card ist inserted with a file-system that is readable (fat32) and the wifitest folder is presdent on the SD-root, wifi_test.sh is executed.
+If an SD-Card ist inserted with a file-system that is readable (fat32) and the wifitest folder is present on the SD-root, wifi_test.sh is executed.
 
 - there are no checks or security meassurements regarding the file or its content.
 - only cmd_serverd is launche before
