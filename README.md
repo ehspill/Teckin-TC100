@@ -1029,6 +1029,7 @@ Pick you Poison via FACTORY_TEST or WIFI_TEST or "encrypted" enable_telnetd.dat 
 
 ### Example:
 WIFI_TEST:
+```
 01. Format SD-CARD FAT32
 02. create new shadowfile and save in sdcard root.
         Exammple shadow root password = tc100
@@ -1044,7 +1045,7 @@ WIFI_TEST:
 05. Optional: Debug Log & CoreDump on SDCard
     a. Create "debug" folder in SDCard root
     b. create "log.txt" in debug folder
-
+```
 ### Shadowfile:
 
 openssl passwd -1 tc100
@@ -1052,36 +1053,205 @@ $1$HZ/jeDVN$8r2kBlyqHxyqhjYjS378Q.
 
 
 ## Persistant Changes:
-
+```
 Option 1 - Repack Image and flash via SPI Programming
 Option 2 - Repack Image and flash via DD
 Option 3 - Repack Image and write wia nandwrite
 Option 4 - Repack Imange and Flash via Uart / U-Boot
 Option 5 - Repack and Upgrade via USB OTA
 Option 6 - Just use an SDCard
-
+```
 
 ## Apps:
 
-Watchdog:
-[monitor_thread:404] interval: 3(sec), fifo[/tmp/daemon_fifo].size=50
+### /bin/
+```
+Busybox - Keep - Updating if possbile
+```
+### /sbin/
+```
+ldconfig - Keep - updates symlinks for shared libraries
 
-anyka_ipc
-ak_cmd_server_register(7000,"anyka_ipc7000");
+Usage: ldconfig [-DvqnX] [-r root] dir ...
+       ldconfig -l [-Dv] lib ...
 
-cmd_serverd
+Options:
+        -D:             debug mode, don't update links
+        -v:             verbose mode, print things as we go
+        -q:             quiet mode, don't print warnings
+        -n:             don't process standard directories
+        -N:             don't update the library cache
+        -X:             don't update the library links
+        -l:             library mode, manually link libraries
+        -p:             print the current library cache
+        -r root :       first, do a chroot to the indicated directory
+        dir ... :       directories to process
+        lib ... :       libraries to link
+		
+mmc_test 1.0.2@Oct 26 2020 03:48:59 - Remove
+    --no-read          -A        [坏卡测试]: 不对TF卡读操作. ***** 此选项会对卡内容进行抹除! *****
+    --no-write         -B        [坏卡测试]: 不对TF卡进行写操作
+    --full-test        -C        [坏卡测试]: 进行全卡扫描测试
+    --no-erase         -D        [坏卡测试]: 不对TF卡进行擦除工作
+    --erase-check      -E        [坏卡测试]: 对TF卡擦除后进行检测
+    --only-fix-fat-fs  -F        [FAT文件系统]: 仅进行fat文件系统修复工作
+    --with-fix-fat-fs  -G        [FAT文件系统]: 检测T卡后.进行fat文件系统修复工作
+    --view-detail      -H        [其他]:显示详细检测过程
+    --only-speed-test  -I        [测速]: 仅进行TF卡测速
+    --with-speed-test  -J        [测速]: 对TF卡进行测速
+    --no-sector-align  -K        [坏卡测试]: 不进行扇区为1MB整数倍对齐
+    --no-write-check   -L        [坏卡测试]: 不进行写入数据检查
+    --key-value-res    -M        [其他]: 使用key-value模式输出检测结果
+    --view-fatfs-log   -N        [FAT文件系统]: 打开fat文件系统修复的显示信息
+    --only-format      -O        [FAT文件系统]: 仅进行格式化文件系统
+    --test-per-mb      -a [MB]   [坏卡测试]: 使用固定容量取测试采样点,缺省值:20(MB)
+    --test-number      -b [NUM]  [坏卡测试]: 使用固定数量测试采样点,缺省值:128
+    --test-sector      -c [NUM]  [坏卡测试]: 每个采样点包含的扇区数量,缺省值:1(扇区)
+    --test-timeout     -d [SEC]  [坏卡测试]: 坏卡测试全局超时时间,缺省值:15(S)
+    --test-sleep       -e [MSEC] [坏卡测试]: 每个采样点测试后的休眠时间,缺省值:1(毫秒)
+    --test-offset      -f [NUM]  [坏卡测试]: 扇区的偏移值,-1为随机偏移值,缺省值:81920
+    --speed-number     -g [NUM]  [测速]: 采样点数量,默认值:5
+    --speed-sector     -i [NUM]  [测速]: 采样点测速扇区数:128
+    --speed-per-mb     -j [MB]   [测速]: 测速采样点间隔,缺省值:2(MB)
+    --speed-offset     -k [NUM]  [测速]: 测速开始扇区偏移值,缺省值:40960
+    --speed-require    -l [NUM]  [测速]: 测速满足性能值,缺省值:1(MB)
+    --dev              -m [dev]  [其他]:存储卡的设备名称,缺省值:/dev/mmcblk0
+    --fat-fs-path      -n [path] [FAT文件系统]:指定修复的目录路径,缺省值:/
+    --test-pnt-timeout -o [MSEC] [坏卡测试]: 坏卡测试采样点超时时间,缺省值:300(mS)
+    --help             -h        [其他]: 帮助
 
+updater - FW Update Tool - Keep
+Usage
+		updater [option] [type]=[value]
+		option:
+		local	-- the file is on local
+		http	-- the file is on http server
+		ftp	-- the file is on ftp server
+		
+		
+		type:
+
+		K	-- update kernel
+		B	-- update nandboot
+		L	-- update bootup logo
+		D	-- update RAM parameter, must update with nandboot!
+		MTDx	-- update mtd x\n"
+		A	-- IP address
+		P	-- port number
+		U	-- server username
+		C	-- server password
+		X	-- need check file, 1 - yes, 0 - no
+		m	-- mac addr
+		s	-- serial number
+		b	-- bar code
+
+		KERNEL	-- update kernel
+		A	-- update root.sqdh4
+		B	-- update usr.sqsh4
+		C	-- update usr.jffs2!
+
+		example:
+		updater local K=/mnt/zImage
+		updater ftp K=/path/file1 A=a.b.c.d P=port U=aaa C=xxx
+```		
+### /usr/bin
+```
+ak_* - Remove - Demo Apps from SDK
+anyka_ipc - Remove - Main IPC App
+	connects to cloud
+	creates local tcpip ipc 127.0.0.1:7000
+	TC-100 Customized:
+		On Launch checks for debug folder on SDCard
+		iVar1 = ak_dvr_check_sd_ro();
+		if ((iVar1 == 0) && (main::log2file == 0)) {
+			main::log2file = savelog2file();
+		}
+		iVar1 = access("/mnt/debug/",0);
+		if (iVar1 == 0) {
+			ak_print_set_level(4);
+			nooie_log_level = 4;
+			EnableDebug(1);
+		}
+		else {
+			ak_print_set_level(3);
+			nooie_log_level = 3;
+			EnableDebug(0);
+		}		
+		On Launch checks for DES3 encrypted shellscript on SD Card
+		  iVar1 = access("/mnt/enable_telnetd.dat",0);
+			if (iVar1 == 0) {
+				puts("found BEGIN running data");
+				iVar1 = des3_dec("/mnt/enable_telnetd.dat","/tmp/autoexec.sh");
+				if (iVar1 == 0) {
+				remove("/mnt/enable_telnetd.dat");
+				cmd[0] = '/';
+				cmd[1] = 't';
+				cmd[2] = 'm';
+				cmd[3] = 'p';
+				cmd[4] = '/';
+				cmd[5] = 'a';
+				cmd[6] = 'u';
+				cmd[7] = 't';
+				cmd[8] = 'o';
+				cmd[9] = 'e';
+				cmd[10] = 'x';
+				cmd[0xb] = 'e';
+				cmd[0xc] = 'c';
+				cmd[0xd] = '.';
+				cmd[0xe] = 's';
+				cmd[0xf] = 'h';
+				cmd[0x10] = '\0';
+				ak_cmd_exec(cmd,result,0x80);
+				printf("BEGIN running result [%s]\n",result);
+			}
+	
+ca.crt.pem - Remove - Provider CA Cert
+ccli - Remove - Module control - Only works in conjunction with anyka_ipc
+cmd_serverd - Remove - Local Command execution tool
+	creates local tcpip ipc 127.0.0.1:8782
+daemon - Remove - watchdog & mgmt.
+	creates tcpip ipc INADDR_ANY:6789 for main interaction
+	creates tcpip ipc INADDR_ANY:6790 for heartbeat
+	creates udp ipc INADDR_ANY:8192 for broadcasts
+disk_repair - TBD
+getconf - TBD
+get_device_id - TBD
+get_nooie_uid - Remove - reads noodie cloud uuid
+hostapd - TBD
+iconv - TBD
+iwconfig - Keep
+iwlist  - Keep
+iwpriv  - Keep
+ldd  - Keep
+set_nooie_ssid - Remove - sets/created noodie cloud uuid
+top_thread - TBD
+wpa_cli - Keep
+wpa_passphrase - Keep
+wpa_supplicant - Keep
+```
+### /usr/sbin
+```
+*.sh - Remove
+```
 
 ## Exploration Ideas:
 
-- Enable Telnet
-- Change Root Password
-- Add Dropbear or run via SDCard
-- Disable cloud
-- Enable RTSP or Build from cross-compile https://github.com/ricardojlrufino/arm-anykav200-crosstool
-- Change Encoding Settings (25FPS, Bitrate..)
-- Remove Cloud binaries
-- Anaylze Cloud binaries
-- reverse cmd_serverd
-- Change watchdog
-- mitm the ssl connection to the cloud and map api endpoints
+
+- Enable Telnet [x]
+- Change Root Password [x]
+- Disable cloud [x]
+- Enable RTSP or Build from cross-compile https://github.com/ricardojlrufino/arm-anykav200-crosstool [x]
+- Change Encoding Settings (25FPS, Bitrate..) [x]
+- improve rtsp ir-led, flip
+- add rtsp osd? date/time
+
+- document entrypoints for fun - FACTORY_TEST or WIFI_TEST or "encrypted" enable_telnetd.da
+- document flasing possibilities
+- document "encryption" used in interesting components
+
+- Add Dropbear with scp
+- add fw/jail
+- update kernel
+- update u-boot
+- update busybox
+- cleanup fs and repack clean img ( rtps, fw, dropbear )
