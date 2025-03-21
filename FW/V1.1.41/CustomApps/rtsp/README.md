@@ -1,6 +1,6 @@
-cross-compile https://github.com/ricardojlrufino/arm-anykav200-crosstool
-sdk https://github.com/Nemobi/ak3918ev300v18
-ak_rtsp_demo.c based on https://github.com/MuhammedKalkan/Anyka-Camera-Firmware
+# cross-compile https://github.com/ricardojlrufino/arm-anykav200-crosstool
+# sdk https://github.com/Nemobi/ak3918ev300v18
+# ak_rtsp_demo.c based on https://github.com/MuhammedKalkan/Anyka-Camera-Firmware
 
 ```
 arm-anykav200-linux-uclibcgnueabi-gcc -fno-strict-aliasing -Os -Wall -Werror -D_GNU_SOURCE -std=c99 -fms-extensions -I/ak3918ev300v18/platform/libplat/include -I/ak3918ev300v18/platform/libapp/../libplat/include_inner -I/ak3918ev300v18/platform/libmpi/include -I/ak3918ev300v18/platform/libapp/include -c ak_rtsp_demo.c -o ak_rtsp_demo.o
