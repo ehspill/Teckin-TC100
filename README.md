@@ -7,6 +7,7 @@ Device Security: 1/10
 
 
 Binwalk:
+```
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 DECIMAL                            HEXADECIMAL                        DESCRIPTION
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -19,12 +20,11 @@ DECIMAL                            HEXADECIMAL                        DESCRIPTIO
 4423680                            0x438000                           SquashFS file system, little endian, version: 4.0, compression: xz, inode count: 144, block size: 131072, image size: 3323202 bytes,
                                                                       created: 2020-10-26 03:49:13
 ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
+```
 
 Tree:
-
+```
 0x23B000 - / Root Filesystem - SquashFS (RO)
-
 
 4.0K]  .
 ├── [4.0K]  ./bin
@@ -529,10 +529,11 @@ Tree:
     │   └── [1.0K]  ./share/udhcpc/default.script
     ├── [3.8K]  ./share/upgrading_camera_please_do_not_cut_off_power.mp3
     └── [5.7K]  ./share/welcome_and_thanks_for_choosing_smart_camera_starting_up_please_stand_by.mp3
-
+```
 
 
 Certificates:
+```
 Embedded in binary "anyka_ipc"
 │   ├── [4.0K]  ./bin/anyka_ipc.extracted
 │   │   ├── [4.0K]  ./bin/anyka_ipc.extracted/135394
@@ -541,7 +542,7 @@ Embedded in binary "anyka_ipc"
 │   │   │   └── [1.6K]  ./bin/anyka_ipc.extracted/135A58/pem.key
 │   │   └── [4.0K]  ./bin/anyka_ipc.extracted/1360E8
 │   │       └── [1.2K]  ./bin/anyka_ipc.extracted/1360E8/pem.crt
-
+```
 
 
 FW: V1.1.41
@@ -551,7 +552,7 @@ Kernel & cmdline:
 console=ttySAK0,115200n8 root=/dev/mtdblock4 rootfstype=squashfs init=/sbin/init mem=64M memsize=64M
 
 BusyBox v1.24.1 (2018-10-17 20:46:15 CST) multi-call binary
-
+```
 Busybox Modules:
 [root@anyka ~]$ busybox --list
 [
@@ -814,9 +815,10 @@ whoami
 whois
 xargs
 yes
-
+```
 
 Netstat:
+```
 [root@anyka ~]$ netstat -an
 Active Internet connections (servers and established)
 Proto Recv-Q Send-Q Local Address           Foreign Address         State
@@ -825,24 +827,27 @@ tcp        0      0 127.0.0.1:7000          0.0.0.0:*               LISTEN
 tcp        0      0 192.168.178.97:57120    3.71.129.157:1883       ESTABLISHED
 udp        0      0 192.168.178.97:53305    0.0.0.0:*
 udp        0      0 0.0.0.0:32345           0.0.0.0:*
-
+```
 
 Diskspace:
+```
 Filesystem                Size      Used Available Use% Mounted on
 /dev/root                 1.3M      1.3M         0 100% /
 /dev/mtdblock6            3.3M      3.3M         0 100% /usr
 /dev/mtdblock5          500.0K    128.0K    372.0K  26% /etc/jffs2
 /dev/loop0               95.0K       512     94.5K   1% /tmp/ramdisk
-
+```
 
 Memory Usage:
+```
              total       used       free     shared    buffers     cached
 Mem:         33384      33044        340          0       5664       9268
 -/+ buffers/cache:      18112      15272
 Swap:            0          0          0
-
+```
 
 Partitions:
+```
 major minor  #blocks  name
 
    7        0        100 loop0
@@ -855,9 +860,10 @@ major minor  #blocks  name
   31        6       3800 mtdblock6
  179        0   15267840 mmcblk0
  179        1   15263744 mmcblk0p1
-
+```
 
 Mountpoints:
+```
 # <file system> <mount point>   <type>  <options>       <dump>  <pass>
 proc            /proc           proc    defaults            0   0
 tmpfs           /tmp            tmpfs   defaults            0   0
@@ -865,9 +871,10 @@ tmpfs           /var            tmpfs   defaults            0   0
 devpts          /dev/pts        devpts  defaults                                                                                                                    0       0
 tmpfs           /mnt            tmpfs   defaults            0   0
 sysfs           /sys            sysfs   defaults            0   0
-
+```
 
 Blockdevices:
+```
 dev:    size   erasesize  name
 mtd0: 00800000 00001000 "spi0.0"
 mtd1: 00200000 00001000 "KERNEL"
@@ -876,9 +883,10 @@ mtd3: 00001000 00001000 "ENV"
 mtd4: 00180000 00001000 "A"
 mtd5: 0007d000 00001000 "B"
 mtd6: 003b6000 00001000 "C"
-
+```
 
 SOC:
+```
 Processor       : ARM926EJ-S rev 5 (v5l)
 BogoMIPS        : 199.06
 Features        : swp half fastmult edsp java
@@ -895,9 +903,10 @@ Serial          : 0000000000000000
 
 Sensor:
 isp_f23_mipi2lane.conf v.4.003
-
+```
 
 Boot Process:
+```
 ::sysinit:/etc/init.d/rcS
     ->
     /etc/init.d/rc.local
@@ -1012,7 +1021,7 @@ Boot Process:
             else
                 echo "NO DEBUG FILE"
             fi
-
+```
 
 Runtime Exploitation:
 If the device has been configured before
