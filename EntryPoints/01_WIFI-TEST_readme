@@ -1,0 +1,78 @@
+Early in the normal Boot process the service.sh checks for serveral modes, one of them is the WIFI_TEST
+
+::sysinit:/etc/init.d/rcS
+    ->
+    /etc/init.d/rc.local
+        ->
+        # mount usr file-system.
+        /bin/mount -t squashfs /dev/mtdblock6 /usr
+        # mount jffs2 file-system.
+        /bin/mount -t jffs2 /dev/mtdblock5 /etc/jffs2
+        /usr/sbin/camera.sh setup
+        /usr/sbin/service.sh start &
+            ->
+            cfgfile="/etc/jffs2/anyka_cfg.ini"
+            cmd_serverd
+            if [ $WIFI_TEST = 1 ]; then
+                #insmod /usr/modules/sdio_wifi.ko
+                insmod /usr/modules/8188fu.ko
+                /mnt/wifitest/wifi_test.sh
+                echo "start wifi test."
+            ....
+            fi
+
+            ....
+
+            if test -d /mnt/wifitest ;then
+                WIFI_TEST=1
+                echo 0 > /sys/class/leds/red_led/brightness
+                echo 1 > /sys/class/leds/blue_led/brightness
+            else
+                WIFI_TEST=0
+            fi
+
+            ...
+			
+If an SD-Card ist inserted with a file-system that is readable (fat32) and the wifitest folder is presdent on the SD-root, wifi_test.sh is executed.
+
+- there are no checks or security meassurements regarding the file or its content.
+- only cmd_serverd is launche before
+- no network connection has been established yet.
+
+Clean rooting example:
+
+wifi_test.sh
+		#! /bin/sh
+		mount --bind /mnt/tempshadow /etc/jffs2/shadow
+		mount --bind /mnt/tempwificreds /etc/jffs2/anyka_cfg.ini
+		/bin/tcpsvd 0 21 ftpd -w / -t 600 &
+		/sbin/telnetd &
+		kill cmd_serverd
+		/usr/sbin/net_manage.sh &
+		
+
+		
+Explanation:
+
+01. First we mount our controlled shadowfile over the existing shadow file with the unknown default root password.
+02. We mount our wifi ssid and password over the anyka_cfg.ini, since we are not launching anyka we can just put in the relevant wifi information
+02. we enable the ftp service which is accessible via root.
+03. we enable the telnetd service which is accessible via root.
+04. we kill the cmd_serverd deamon since we dont use it.
+05. we launch the net_manage sh to establish a wifi connection.
+06. now you can connect to the camera ip via telnet or ftp with root:tc100
+
+
+tempwificreds
+[wireless]
+ssid = WIFISSID
+password = WIFIPASS
+security = 
+
+
+tempshadow
+root:$1$HZ/jeDVN$8r2kBlyqHxyqhjYjS378Q.:0:0:99999:7:::
+bin:*:10933:0:99999:7:::
+daemon:*:10933:0:99999:7:::
+nobody:*:10933:0:99999:7:::
+
