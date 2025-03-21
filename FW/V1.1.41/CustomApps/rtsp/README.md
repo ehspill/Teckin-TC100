@@ -46,7 +46,7 @@ ENV PATH=$PATH:/opt/arm-anykav200-crosstool/usr/bin
 RUN mkdir /src \ 
     && git clone https://github.com/Nemobi/ak3918ev300v18.git /src/ak3918ev300v18
 
-# Step 7: Build
+# Step 7: Build TC-100 rtsp
 RUN mkdir /src/custom \
     && wget -P /src/custom https://github.com/ehspill/Teckin-TC100/blob/main/FW/V1.1.41/CustomApps/rtsp/ak_rtsp_demo.c \
     && arm-anykav200-linux-uclibcgnueabi-gcc -fno-strict-aliasing -Os -Wall -Werror -D_GNU_SOURCE -std=c99 -fms-extensions -I/src/ak3918ev300v18/platform/libplat/include -I/src/ak3918ev300v18/platform/libapp/../libplat/include_inner -I/src/ak3918ev300v18/platform/libmpi/include -I/src/ak3918ev300v18/platform/libapp/include -c ak_rtsp_demo.c -o ak_rtsp_demo.o \
