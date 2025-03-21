@@ -1,0 +1,96 @@
+adopt ir and flip later
+
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <errno.h>
+#include <string.h>
+#include <fcntl.h>
+#include <signal.h>
+#include <dirent.h>
+
+#include <sys/ioctl.h>
+#include <sys/types.h>
+#include <syslog.h>
+#include <ctype.h>
+#include <math.h>
+
+#include "monitor.h"
+
+#include "ak_common.h"
+#include "ak_cmd_exec.h"
+#include "ak_thread.h"
+#include "ak_drv_ir.h"
+#include "ak_drv_irled.h"
+
+#include "ak_vi.h"
+#include "ak_ai.h"
+#include "ak_ao.h"
+#include "ak_venc.h"
+#include "ak_aenc.h"
+#include "ak_its.h"
+#include "ak_ipc_srv.h"
+
+
+#include "ak_net.h"
+#include "ak_dana.h"
+#include "ak_misc.h"
+#include "ak_vpss.h"
+
+
+
+static int init_flip_mirror(void)
+{
+	struct image_config *image = ak_config_get_image();
+
+	return ak_vi_set_flip_mirror(vi_handle, image->flip, image->mirror);
+}
+
+static int init_irled(void)
+{
+	struct ak_drv_irled_hw_param param;
+	struct image_config *image = ak_config_get_image();
+
+	param.irled_working_level = image->irled_mode;
+	return ak_drv_irled_init(&param);
+}
+
+static void init_other_platform(void)
+{
+	struct camera_disp_config *camera = ak_config_get_camera_info();
+
+	/* init video flip & mirror */
+	init_flip_mirror();
+	/* init ir led work mode */
+	init_irled();
+
+	struct auto_day_night_config *auto_day_night = ak_config_get_auto_day_night();
+	//struct auto_day_night_switch config;
+	int i = 0;
+	
+	if (auto_day_night->auto_day_night_enable) {
+		/* use auto day night switch */	
+		struct ak_auto_day_night_threshold threshold;
+		threshold.day_to_night_lum = auto_day_night->day_to_night_lum;
+		threshold.night_to_day_lum = auto_day_night->night_to_day_lum;
+		threshold.lock_time = auto_day_night->lock_time;
+		
+		for (i = 0; i < NIGHT_ARRAY_NUM; i++) {
+			threshold.night_cnt[i] = auto_day_night->night_cnt[i];
+		}
+
+		for (i = 0; i < DAY_ARRAY_NUM; i++) {
+			threshold.day_cnt[i] = auto_day_night->day_cnt[i];
+		}
+
+		ak_vpss_isp_set_auto_day_night_param(&threshold);
+	
+		ak_misc_start_photosensitive_switch_ex(AUTO_PHOTOSENSITIVE,
+										camera->day_ctrl, auto_day_night->day_night_mode);
+
+	} else {
+		/* start photosensitive ircut detect service */
+    	ak_misc_start_photosensitive_switch_ex(HARDWARE_PHOTOSENSITIVE,
+										camera->day_ctrl, auto_day_night->day_night_mode);
+	}
