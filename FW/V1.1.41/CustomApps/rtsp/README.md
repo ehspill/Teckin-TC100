@@ -6,7 +6,7 @@ Simple Dockerfile for Building
 # Step 1: Use the latest Ubuntu image
 FROM ubuntu:latest
 
-# Step 2: Install SSH server, enable it, and map port 8022 -> 22
+# Step 2: Install SSH server
 RUN apt-get update && apt-get install -y \
     openssh-server \
     && mkdir /var/run/sshd \
