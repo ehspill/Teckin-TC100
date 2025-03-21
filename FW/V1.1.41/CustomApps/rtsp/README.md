@@ -1,6 +1,5 @@
 cross-compile https://github.com/ricardojlrufino/arm-anykav200-crosstool
 sdk https://github.com/Nemobi/ak3918ev300v18
-
 ak_rtsp_demo.c based on https://github.com/MuhammedKalkan/Anyka-Camera-Firmware
 
 ```
