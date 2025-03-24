@@ -1,6 +1,6 @@
 At the end of the normal Bootprocess when anyka_ipc is launched, the app first checks for the existence of a file (/mnt/enable_telnetd.dat) and decrypts it using 3DES.
 
-If decryption succeeds, the decrypted content is saved to /tmp/autoexec.sh, and the original file is removed.
+If decryption succeeds, the decrypted content is saved to /tmp/autoexec.sh, and the original file is removed from the SD-card.
 The decrypted script is then executed using ak_cmd_exec().
 
 
