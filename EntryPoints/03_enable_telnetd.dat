@@ -4,7 +4,7 @@ If decryption succeeds, the decrypted content is saved to /tmp/autoexec.sh, and 
 The decrypted script is then executed using ak_cmd_exec().
 
 
-It also sets the default return value (ret) to -1, indicating failure by default.
+It sets the default return value (ret) to -1, indicating failure by default.
 Reads up to 4096 bytes (0x1000) of encrypted data into the buffer cipher.
 If fewer than 8 bytes are read, it prints an error and returns -1.
 Key and IV: The script uses the same hardcoded key (123 padded with zeros) and IV (0x1234567890ABCDEF).
