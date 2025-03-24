@@ -1,26 +1,11 @@
-At the end of the normal Bootprocess when anyka_ipc is launched, the app first looks for an /mnt/enable_telnetd.dat file
-
-The app checks for the existence of a file (/mnt/enable_telnetd.dat) and decrypts it using 3DES.
+At the end of the normal Bootprocess when anyka_ipc is launched, the app first checks for the existence of a file (/mnt/enable_telnetd.dat) and decrypts it using 3DES.
 
 If decryption succeeds, the decrypted content is saved to /tmp/autoexec.sh, and the original file is removed.
 The decrypted script is then executed using ak_cmd_exec().
 
-des3_dec()
-The function initializes several variables:
-Buffers for plaintext (plain) and ciphertext (cipher) each with size 4104 bytes.
-DES3 key (key3) of length 24 bytes (192 bits).
-Initialization Vector (iv3) of length 8 bytes (64 bits).
-A DES3 context structure (dec).
+
 It also sets the default return value (ret) to -1, indicating failure by default.
 Reads up to 4096 bytes (0x1000) of encrypted data into the buffer cipher.
 If fewer than 8 bytes are read, it prints an error and returns -1.
-IV used for DES3 CBC decryption is always fixed as 0x1234567890ABCDEF.
 Key and IV: The script uses the same hardcoded key (123 padded with zeros) and IV (0x1234567890ABCDEF).
-
 Padding: The plaintext is padded to ensure its size is a multiple of 8 bytes (the block size for DES3). This is required for CBC mode.
-
-
-
-
-The example Pythonscript uses Python's pycryptodome library to perform DES3 encryption in CBC mode.
-It reads the content of enable_telnetd.dat.plain, encrypts it, and saves it as enable_telnetd.dat.encrypted.
