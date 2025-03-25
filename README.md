@@ -1024,28 +1024,9 @@ isp_f23_mipi2lane.conf v.4.003
 ```
 
 ## Runtime Exploitation:
-If the device has been configured before
-Pick you Poison via FACTORY_TEST or WIFI_TEST or "encrypted" enable_telnetd.dat entrypoints on SDCard.
 
-### Example:
-WIFI_TEST:
-```
-01. Format SD-CARD FAT32
-02. create new shadowfile and save in sdcard root.
-        Exammple shadow root password = tc100
-02. Create "wifitest" folder in SDCard root
-03. Create wifi_test.sh in wifitest folder.
-04. Example wifi_test.sh: (only launches cmd_serverd, ftp and telned)
-		#! /bin/sh
-		mount --bind /mnt/tempshadow /etc/jffs2/shadow
-		/bin/tcpsvd 0 21 ftpd -w / -t 600 &
-		/sbin/telnetd &
-		/usr/sbin/net_manage.sh &		#If the device has not been linked/configured before you have to also edit the wpa_supplicant config.
+see entrypoints subfolder, three methods found so far.
 
-05. Optional: Debug Log & CoreDump on SDCard
-    a. Create "debug" folder in SDCard root
-    b. create "log.txt" in debug folder
-```
 ### Shadowfile:
 
 openssl passwd -1 tc100
@@ -1246,8 +1227,7 @@ wpa_supplicant - Keep
 - add rtsp osd? date/time
 
 - document entrypoints for fun - FACTORY_TEST or WIFI_TEST or "encrypted" enable_telnetd.da
-- document flasing possibilities
-- document "encryption" used in interesting components
+- document flashing possibilities
 
 - Add Dropbear with scp
 - add fw/jail
