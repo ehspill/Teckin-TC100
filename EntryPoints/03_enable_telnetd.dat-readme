@@ -9,3 +9,6 @@ Reads up to 4096 bytes (0x1000) of encrypted data into the buffer cipher.
 If fewer than 8 bytes are read, it prints an error and returns -1.
 Key and IV: The script uses the same hardcoded key (123 padded with zeros) and IV (0x1234567890ABCDEF).
 Padding: The plaintext is padded to ensure its size is a multiple of 8 bytes (the block size for DES3). This is required for CBC mode.
+
+See 03_encryption for a example script.
+telnet.dat.enc and etelnet.dat.plain for example files.
