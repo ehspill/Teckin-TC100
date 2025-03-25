@@ -1,0 +1,69 @@
+Early in the normal Boot process the service.sh checks for serveral modes, one of them is the FACTORY_Test mode.
+
+::sysinit:/etc/init.d/rcS
+    ->
+    /etc/init.d/rc.local
+        ->
+        # mount usr file-system.
+        /bin/mount -t squashfs /dev/mtdblock6 /usr
+        # mount jffs2 file-system.
+        /bin/mount -t jffs2 /dev/mtdblock5 /etc/jffs2
+        /usr/sbin/camera.sh setup
+        /usr/sbin/service.sh start &
+            ->
+            cfgfile="/etc/jffs2/anyka_cfg.ini"
+            cmd_serverd
+            ....
+            elif [ $FACTORY_TEST = 1 ]; then
+                /mnt/usbnet/product_test &
+                insmod /mnt/usbnet/otg-hs.ko
+                insmod /mnt/usbnet/usbnet.ko
+                insmod /mnt/usbnet/asix.ko
+                #insmod /mnt/usbnet/udc.ko
+                #insmod /mnt/usbnet/g_ether.ko
+                sleep 1
+                ifconfig eth0 up
+                sleep 1
+                /usr/sbin/eth_manage.sh start
+                echo "start product test."
+            ....
+            fi
+
+            ....
+
+            if test -d /mnt/usbnet ;then
+                FACTORY_TEST=1
+                echo 0 > /sys/class/leds/red_led/brightness
+                echo 1 > /sys/class/leds/blue_led/brightness
+            else
+                FACTORY_TEST=0
+            fi
+
+            ...
+
+              eth_manage.sh
+                  if [ $FACTORY_TEST = 1 ] ;then
+	                  inifile="/mnt/usbnet/anyka_cfg.ini"
+                  fi
+
+                  if test -d /mnt/usbnet ;then
+  	                FACTORY_TEST=1
+                  else
+	                  FACTORY_TEST=0
+                  fi
+			
+
+
+tempwificreds
+[wireless]
+ssid = WIFISSID
+password = WIFIPASS
+security = 
+
+
+tempshadow
+root:$1$HZ/jeDVN$8r2kBlyqHxyqhjYjS378Q.:0:0:99999:7:::
+bin:*:10933:0:99999:7:::
+daemon:*:10933:0:99999:7:::
+nobody:*:10933:0:99999:7:::
+
