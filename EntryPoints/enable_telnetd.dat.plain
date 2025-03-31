@@ -1,0 +1,24 @@
+#! /bin/sh
+mount --bind /mnt/tempshadow /etc/jffs2/shadow
+/bin/tcpsvd 0 21 ftpd -w / -t 600 &
+/sbin/telnetd &
+killall -12 daemon
+sleep 5
+killall daemon
+killall cmd_serverd
+/usr/sbin/anyka_ipc.sh stop
+/usr/sbin/wifi_manage.sh stop
+killall wifi_station.sh
+sleep 1
+/usr/sbin/wifi_driver.sh uninstall
+sleep 2
+insmod /usr/modules/otg-hs.ko
+sleep 1
+insmod /usr/modules/8188fu.ko
+echo "0" > /sys/module/8188fu/parameters/rtw_drv_log_level
+sleep 2
+ifconfig wlan0 up
+wpa_supplicant -B -i wlan0 -c /mnt/wpa_supplicant.conf -P /var/run/wpa_supplicant.pid
+sleep 1
+udhcpc -i wlan0  -x hostname:"TC100" &
+sleep 1
