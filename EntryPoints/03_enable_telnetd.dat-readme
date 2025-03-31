@@ -12,3 +12,5 @@ Padding: The plaintext is padded to ensure its size is a multiple of 8 bytes (th
 
 See 03_encryption for a example script.
 telnet.dat.enc and telnet.dat.plain for example files.
+
+Note: Last line of telnet.dat.plain is not procssed, there is some scripting error im to lazy to resolve.
