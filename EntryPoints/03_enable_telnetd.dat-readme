@@ -11,4 +11,4 @@ Key and IV: The script uses the same hardcoded key (123 padded with zeros) and I
 Padding: The plaintext is padded to ensure its size is a multiple of 8 bytes (the block size for DES3). This is required for CBC mode.
 
 See 03_encryption for a example script.
-telnet.dat.enc and etelnet.dat.plain for example files.
+telnet.dat.enc and telnet.dat.plain for example files.
